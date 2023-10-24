@@ -5,6 +5,7 @@ TagManager:
   serializedVersion: 2
   tags:
   - Barricade
+  - Monster
   layers:
   - Default
   - TransparentFX
