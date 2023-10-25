@@ -10,18 +10,16 @@ public enum BarricadeDir
 public class Barricade : MonoBehaviour
 {
     [SerializeField]
-    private BarricadeDir _dir;
+    private BarricadeDir _direction;
     private string _monsterTag = "Monster";
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        Debug.Log("trigger enter");
         if (collision.CompareTag(_monsterTag))
         {
             Monster monster = collision.GetComponent<Monster>();
-            Vector3 dir = GetRandomDirection();
-            Debug.Log(dir);
-            monster.ChangeMoveDirection(dir);
+            Vector3 dirPos = GetRandomDirection();
+            monster.ChangeMoveDirection(dirPos);
         }
     }
 
@@ -29,7 +27,7 @@ public class Barricade : MonoBehaviour
     {
         float beginAngle;
         float endAngle;
-        switch (_dir)
+        switch (_direction)
         {
             case BarricadeDir.NORTH:
                 beginAngle = 195;
@@ -40,12 +38,12 @@ public class Barricade : MonoBehaviour
                 endAngle = 165;
                 break;
             case BarricadeDir.EAST:
-                beginAngle = 285;
-                endAngle = 435;
-                break;
-            case BarricadeDir.WEST:
                 beginAngle = 105;
                 endAngle = 255;
+                break;
+            case BarricadeDir.WEST:
+                beginAngle = 285;
+                endAngle = 435;
                 break;
             default:
                 beginAngle = 0;

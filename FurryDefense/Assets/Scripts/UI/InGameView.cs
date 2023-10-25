@@ -1,18 +1,31 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class InGameView : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    [SerializeField]
+    private EventTrigger _unitTrigger;
+
+    private void Awake()
     {
-        
+
     }
 
-    // Update is called once per frame
-    void Update()
+    private void OnClick()
     {
-        
+        Debug.Log("Click");
+    }
+
+    private void OnDown()
+    {
+        Debug.Log("Down");
+    }
+
+    private void OnUp()
+    {
+        Debug.Log("Up");
     }
 }
