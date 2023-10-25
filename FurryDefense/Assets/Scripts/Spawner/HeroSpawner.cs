@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class HeroSpawner : MonoBehaviour
 {
-    public bool IsSpawnedHero {  get; private set; }
+    public bool IsSpawnedHero { get; private set; }
 
 
     [SerializeField]
@@ -14,6 +14,12 @@ public class HeroSpawner : MonoBehaviour
     private GameObject _spawnedHero;
     private GameObject _heroZone;
 
+    public void DestroySpawnedHero()
+    {
+        Destroy(_spawnedHero.gameObject);
+        _spawnedHero = null;
+        IsSpawnedHero = false;
+    }
 
     public void SpawnHero(int id, Vector3 spawnPos)
     {
@@ -28,9 +34,24 @@ public class HeroSpawner : MonoBehaviour
 
     private void Update()
     {
-        if (_spawnedHero != null && Input.touchCount > 0)
+        if (_spawnedHero != null)
         {
-            _spawnedHero.transform.position = GetSpawnedHeroPosition();
+            if (Input.touchCount > 0)
+            {
+                _spawnedHero.transform.position = GetSpawnedHeroPosition();
+            }
+            else if (Input.touchCount == 0)
+            {
+                if(_heroZone == null)
+                {
+                    DestroySpawnedHero();
+                }
+                else
+                {
+                    _spawnedHero = null;
+                    IsSpawnedHero = false;
+                }
+            }
         }
     }
 
