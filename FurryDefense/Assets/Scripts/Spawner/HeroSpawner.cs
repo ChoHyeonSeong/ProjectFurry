@@ -9,21 +9,24 @@ public class HeroSpawner : MonoBehaviour
 
 
     [SerializeField]
-    private List<GameObject> _heroPrefabs;
+    private List<Hero> _heroPrefabs;
 
-    private GameObject _spawnedHero;
+    private Hero _spawnedHero;
     private GameObject _heroZone;
+    private GameObject _landingBtn;
+    private int _heroIndex;
 
     public void DestroySpawnedHero()
     {
-        Destroy(_spawnedHero.gameObject);
         _spawnedHero = null;
         IsSpawnedHero = false;
     }
 
-    public void SpawnHero(int id, Vector3 spawnPos)
+    public void SpawnHero(int index, Vector3 spawnPos, GameObject landingBtn)
     {
-        _spawnedHero = Instantiate(_heroPrefabs[id], spawnPos, Quaternion.identity, transform);
+        _spawnedHero = Instantiate(_heroPrefabs[index], spawnPos, Quaternion.identity, transform);
+        _heroIndex = index;
+        _landingBtn = landingBtn;
         IsSpawnedHero = true;
     }
 
@@ -44,13 +47,17 @@ public class HeroSpawner : MonoBehaviour
             {
                 if(_heroZone == null)
                 {
-                    DestroySpawnedHero();
+                    Destroy(_spawnedHero.gameObject);
                 }
                 else
                 {
-                    _spawnedHero = null;
-                    IsSpawnedHero = false;
+                    _landingBtn.SetActive(false);
+                    _spawnedHero.LandHero(_heroIndex);
                 }
+                _heroIndex = -1;
+                _spawnedHero = null;
+                _landingBtn = null;
+                IsSpawnedHero = false;
             }
         }
     }

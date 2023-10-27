@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -11,15 +12,23 @@ public enum EHeroState
 
 public class Hero : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    public int HeroIndex { get; private set; }
+    public static Action<Hero> OnClickHero { get; set; }
+    private BoxCollider2D _boxCollider;
+
+    public void LandHero(int index)
     {
-        
+        HeroIndex = index;
+        _boxCollider.enabled = true;
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Awake()
     {
-        
+        _boxCollider = GetComponent<BoxCollider2D>();
+    }
+
+    private void OnMouseDown()
+    {
+        OnClickHero(this);
     }
 }

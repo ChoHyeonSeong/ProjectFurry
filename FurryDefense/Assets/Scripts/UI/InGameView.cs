@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -7,25 +8,11 @@ using UnityEngine.UI;
 public class InGameView : MonoBehaviour
 {
     [SerializeField]
-    private EventTrigger _unitTrigger;
+    private List<GameObject> _landingBtnList;
 
-    private void Awake()
+
+    public void ActiveLandingButton(int index)
     {
-
-    }
-
-    private void OnClick()
-    {
-        Debug.Log("Click");
-    }
-
-    private void OnDown()
-    {
-        Debug.Log("Down");
-    }
-
-    private void OnUp()
-    {
-        Debug.Log("Up");
+        _landingBtnList[index].SetActive(true);
     }
 }

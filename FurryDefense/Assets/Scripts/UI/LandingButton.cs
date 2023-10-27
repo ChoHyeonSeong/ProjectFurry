@@ -7,7 +7,7 @@ using UnityEngine.EventSystems;
 public class LandingButton : MonoBehaviour, IPointerUpHandler, IPointerDownHandler, IPointerExitHandler
 {
     [SerializeField]
-    private int _heroID;
+    private int _heroIndex;
 
     private Vector3 _selectedPos = new Vector3(0, 50, 0);
     private bool _isPointerDowned;
@@ -18,6 +18,11 @@ public class LandingButton : MonoBehaviour, IPointerUpHandler, IPointerDownHandl
         _heroSpawner = FindObjectOfType<HeroSpawner>();
     }
 
+    public void SuccessHeroLanding()
+    {
+        gameObject.SetActive(false);
+    }
+
     public void OnPointerDown(PointerEventData eventData)
     {
         transform.position += _selectedPos;
@@ -26,11 +31,11 @@ public class LandingButton : MonoBehaviour, IPointerUpHandler, IPointerDownHandl
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        if(_isPointerDowned)
+        if (_isPointerDowned && !_heroSpawner.IsSpawnedHero)
         {
             Vector3 exitPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             exitPos.z = 0;
-            ReadyHeroLanding(_heroID, exitPos);
+            ReadyHeroLanding(_heroIndex, exitPos);
         }
     }
 
@@ -40,8 +45,9 @@ public class LandingButton : MonoBehaviour, IPointerUpHandler, IPointerDownHandl
         _isPointerDowned = false;
     }
 
-    private void ReadyHeroLanding(int id, Vector3 exitPos)
+    private void ReadyHeroLanding(int index, Vector3 exitPos)
     {
-        _heroSpawner.SpawnHero(id, exitPos);
+        _heroSpawner.SpawnHero(index, exitPos, gameObject);
     }
+
 }
