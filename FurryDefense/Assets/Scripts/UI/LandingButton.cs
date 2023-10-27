@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
@@ -35,7 +36,7 @@ public class LandingButton : MonoBehaviour, IPointerUpHandler, IPointerDownHandl
         {
             Vector3 exitPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             exitPos.z = 0;
-            ReadyHeroLanding(_heroIndex, exitPos);
+            _heroSpawner.SpawnHero(_heroIndex, exitPos, gameObject);
         }
     }
 
@@ -43,11 +44,6 @@ public class LandingButton : MonoBehaviour, IPointerUpHandler, IPointerDownHandl
     {
         transform.position -= _selectedPos;
         _isPointerDowned = false;
+        _heroSpawner.TryLandingHero();
     }
-
-    private void ReadyHeroLanding(int index, Vector3 exitPos)
-    {
-        _heroSpawner.SpawnHero(index, exitPos, gameObject);
-    }
-
 }

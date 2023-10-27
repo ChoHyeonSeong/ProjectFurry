@@ -3,24 +3,37 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class HeroZone : MonoBehaviour
+public class HeroZone : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
 {
+    public Hero StandingHero { get; set; }
+
     private HeroSpawner _heroSpawner;
+    private HeroZoneHandler _heroZoneHandler;
 
 
     private void Awake()
     {
         _heroSpawner = FindObjectOfType<HeroSpawner>();
+        _heroZoneHandler = FindObjectOfType<HeroZoneHandler>();
     }
 
-
-    private void OnMouseEnter()
+    public void OnPointerEnter(PointerEventData eventData)
     {
-        _heroSpawner.ChangeHeroZone(gameObject);
+        Debug.Log("HeroZone Enter");
+        _heroSpawner.ChangeHeroZone(this);
     }
 
-    private void OnMouseExit()
+    public void OnPointerExit(PointerEventData eventData)
     {
+        Debug.Log("HeroZone Exit");
         _heroSpawner.ChangeHeroZone(null);
+    }
+
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        if(_heroZoneHandler.IsReadyChanging)
+        {
+            _heroZoneHandler.ChangeZone(this);
+        }
     }
 }

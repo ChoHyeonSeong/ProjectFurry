@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public enum EHeroState
 {
@@ -10,7 +11,7 @@ public enum EHeroState
     ATTACK,
 }
 
-public class Hero : MonoBehaviour
+public class Hero : MonoBehaviour, IPointerClickHandler
 {
     public int HeroIndex { get; private set; }
     public static Action<Hero> OnClickHero { get; set; }
@@ -27,8 +28,10 @@ public class Hero : MonoBehaviour
         _boxCollider = GetComponent<BoxCollider2D>();
     }
 
-    private void OnMouseDown()
+
+    public void OnPointerClick(PointerEventData eventData)
     {
+        Debug.Log("Hero OnMouseDown");
         OnClickHero(this);
     }
 }

@@ -12,22 +12,25 @@ public class OperationMenu : MonoBehaviour
 
     private Hero _selectedHero;
     private InGameView _inGameView;
+    private HeroZoneHandler _heroZoneHandler;
 
     private void Awake()
     {
         _inGameView = FindObjectOfType<InGameView>();
-        gameObject.SetActive(false);
+        _heroZoneHandler = FindObjectOfType<HeroZoneHandler>();
         _retreatBtn.onClick.AddListener(RetreatHero);
+        _changeZoneBtn.onClick.AddListener(ChangeZone);
+
+        Hero.OnClickHero += ShowMenu;
+        Outside.OnClickOutside += HideMenu;
+
+        gameObject.SetActive(false);
     }
 
-    private void OnEnable()
+    private void OnDestroy()
     {
-        Hero.OnClickHero += ShowMenu;
-    }
-
-    private void OnDisable()
-    {
-        Hero.OnClickHero += ShowMenu;
+        Hero.OnClickHero -= ShowMenu;
+        Outside.OnClickOutside -= HideMenu;
     }
 
     private void ShowMenu(Hero hero)
@@ -37,10 +40,23 @@ public class OperationMenu : MonoBehaviour
         gameObject.SetActive(true);
     }
 
+    private void HideMenu()
+    {
+        _selectedHero = null;
+        gameObject.SetActive(false);
+    }
+
     private void RetreatHero()
     {
         _inGameView.ActiveLandingButton(_selectedHero.HeroIndex);
         Destroy(_selectedHero.gameObject);
+        _selectedHero = null;
+        gameObject.SetActive(false);
+    }
+
+    private void ChangeZone()
+    {
+        _heroZoneHandler.ReadyChanging(_selectedHero);
         _selectedHero = null;
         gameObject.SetActive(false);
     }
