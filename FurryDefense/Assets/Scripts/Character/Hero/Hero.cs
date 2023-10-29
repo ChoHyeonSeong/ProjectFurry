@@ -13,8 +13,11 @@ public enum EHeroState
 
 public class Hero : MonoBehaviour, IPointerClickHandler
 {
-    public int HeroIndex { get; private set; }
     public static Action<Hero> OnClickHero { get; set; }
+
+    public int HeroIndex { get; private set; }
+    public HeroZone MyZone { get; set; }
+
     private BoxCollider2D _boxCollider;
 
     public void LandHero(int index)
@@ -28,10 +31,8 @@ public class Hero : MonoBehaviour, IPointerClickHandler
         _boxCollider = GetComponent<BoxCollider2D>();
     }
 
-
     public void OnPointerClick(PointerEventData eventData)
     {
-        Debug.Log("Hero OnMouseDown");
         OnClickHero(this);
     }
 }

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,11 +6,18 @@ using UnityEngine.EventSystems;
 
 public class HeroZone : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
 {
-    public Hero StandingHero { get; set; }
+    public static Action<HeroZone> OnClickHeroZone { get; set; }
+
+    [SerializeField]
+    private GameObject _possibleZone;
+
+    [SerializeField]
+    private GameObject _impossibleZone;
+
+    public bool IsStandingHero;
 
     private HeroSpawner _heroSpawner;
     private HeroZoneHandler _heroZoneHandler;
-
 
     private void Awake()
     {
@@ -19,21 +27,45 @@ public class HeroZone : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        Debug.Log("HeroZone Enter");
-        _heroSpawner.ChangeHeroZone(this);
+        if(_heroSpawner.IsSpawnedHero)
+        {
+            Debug.Log("HeroZone Enter");
+            _heroSpawner.SetHeroZone(this);
+        }
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        Debug.Log("HeroZone Exit");
-        _heroSpawner.ChangeHeroZone(null);
+        if (_heroSpawner.IsSpawnedHero)
+        {
+            Debug.Log("HeroZone Exit");
+            _heroSpawner.SetHeroZone(null);
+        }
     }
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        if(_heroZoneHandler.IsReadyChanging)
+        if (_heroZoneHandler.IsReadyChanging)
         {
             _heroZoneHandler.ChangeZone(this);
         }
+    }
+
+    public void CheckChange()
+    {
+        if (IsStandingHero)
+        {
+            _impossibleZone.SetActive(true);
+        }
+        else
+        {
+            _possibleZone.SetActive(true);
+        }
+    }
+
+    public void EndChange()
+    {
+        _impossibleZone.SetActive(false);
+        _possibleZone.SetActive(false);
     }
 }

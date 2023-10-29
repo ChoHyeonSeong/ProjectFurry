@@ -30,7 +30,7 @@ public class HeroSpawner : MonoBehaviour
         IsSpawnedHero = true;
     }
 
-    public void ChangeHeroZone(HeroZone zone)
+    public void SetHeroZone(HeroZone zone)
     {
         _heroZone = zone;
     }
@@ -45,11 +45,13 @@ public class HeroSpawner : MonoBehaviour
         {
             _landingBtn.SetActive(false);
             _spawnedHero.LandHero(_heroIndex);
-            _heroZone.StandingHero = _spawnedHero;
+            _spawnedHero.MyZone = _heroZone;
+            _heroZone.IsStandingHero = true;
         }
         _heroIndex = -1;
         _spawnedHero = null;
         _landingBtn = null;
+        _heroZone = null;
         IsSpawnedHero = false;
     }
 

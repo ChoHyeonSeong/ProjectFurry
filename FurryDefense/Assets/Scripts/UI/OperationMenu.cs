@@ -36,7 +36,7 @@ public class OperationMenu : MonoBehaviour
     private void ShowMenu(Hero hero)
     {
         _selectedHero = hero;
-        transform.position = Camera.main.WorldToScreenPoint(hero.transform.position);
+        transform.position = Camera.main.WorldToScreenPoint(_selectedHero.transform.position);
         gameObject.SetActive(true);
     }
 
@@ -49,6 +49,8 @@ public class OperationMenu : MonoBehaviour
     private void RetreatHero()
     {
         _inGameView.ActiveLandingButton(_selectedHero.HeroIndex);
+        _selectedHero.MyZone.IsStandingHero = false;
+        _selectedHero.MyZone = null;
         Destroy(_selectedHero.gameObject);
         _selectedHero = null;
         gameObject.SetActive(false);
