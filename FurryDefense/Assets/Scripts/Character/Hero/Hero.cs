@@ -51,6 +51,8 @@ public class Hero : MonoBehaviour, IPointerClickHandler
         _monsterZoneHandler = FindObjectOfType<MonsterZoneHandler>();
         _boxCollider = GetComponent<BoxCollider2D>();
         _isLanded = false;
+        _possibleAttack = false;
+        _attackTime = 0.2f;
     }
 
     private void Update()
@@ -59,7 +61,11 @@ public class Hero : MonoBehaviour, IPointerClickHandler
         {
             if(_possibleAttack)
             {
-
+                foreach(MonsterZone zone in _targetMonsterZoneList)
+                {
+                    zone.AttackMonster(1);
+                }
+                StartCoroutine(CoExecuteAttack());
             }
         }
     }
@@ -127,8 +133,9 @@ public class Hero : MonoBehaviour, IPointerClickHandler
         }
     }
 
-    private IEnumerator CoCheckAttack()
+    private IEnumerator CoExecuteAttack()
     {
+        Debug.Log("Attack Monster");
         _possibleAttack = false;
         yield return new WaitForSeconds(_attackTime);
         _possibleAttack = true;
