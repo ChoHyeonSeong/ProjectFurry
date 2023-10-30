@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum BarricadeDir
+public enum EDirection
 {
     NORTH, SOUTH, EAST, WEST
 }
@@ -10,7 +10,7 @@ public enum BarricadeDir
 public class Barricade : MonoBehaviour
 {
     [SerializeField]
-    private BarricadeDir _direction;
+    private EDirection _direction;
     private string _monsterTag = "Monster";
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -29,19 +29,19 @@ public class Barricade : MonoBehaviour
         float endAngle;
         switch (_direction)
         {
-            case BarricadeDir.NORTH:
+            case EDirection.NORTH:
                 beginAngle = 195;
                 endAngle = 345;
                 break;
-            case BarricadeDir.SOUTH:
+            case EDirection.SOUTH:
                 beginAngle = 15;
                 endAngle = 165;
                 break;
-            case BarricadeDir.EAST:
+            case EDirection.EAST:
                 beginAngle = 105;
                 endAngle = 255;
                 break;
-            case BarricadeDir.WEST:
+            case EDirection.WEST:
                 beginAngle = 285;
                 endAngle = 435;
                 break;
