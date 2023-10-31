@@ -8,7 +8,7 @@ public class HeartPointBar : MonoBehaviour
     private Monster _monster;
     [SerializeField]
     private Image _fill;
-    private Vector3 _onHeadPos = new Vector3(0, 50, 0);
+    private Vector3 _onHeadPos = new Vector3(0, 0.5f, 0);
     private float _fillAmount;
 
     private void Awake()
@@ -20,6 +20,7 @@ public class HeartPointBar : MonoBehaviour
     {
         _monster = monster;
         _monster.OnPlusHeartPoint += UpdateBar;
+        _monster.OnDieMonster += DestroyBar;
     }
 
     public void UpdateBar()
@@ -30,10 +31,17 @@ public class HeartPointBar : MonoBehaviour
 
     private void LateUpdate()
     {
-        if (_fillAmount <= 0)
+        if(_monster != null)
         {
-            Destroy(gameObject);
+            transform.position = Camera.main.WorldToScreenPoint(_monster.transform.position + _onHeadPos);
         }
-        transform.position = Camera.main.WorldToScreenPoint(_monster.transform.position) + _onHeadPos;
+    }
+
+    private void DestroyBar()
+    {
+        _monster.OnPlusHeartPoint -= UpdateBar;
+        _monster.OnDieMonster -= DestroyBar;
+        _monster = null;
+        Destroy(gameObject);
     }
 }
