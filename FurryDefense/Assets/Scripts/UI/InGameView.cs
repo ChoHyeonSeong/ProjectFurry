@@ -8,6 +8,9 @@ using UnityEngine.UI;
 public class InGameView : MonoBehaviour
 {
     [SerializeField]
+    private GameObject _landingBtnParent;
+
+    [SerializeField]
     private List<GameObject> _landingBtnList;
 
 
