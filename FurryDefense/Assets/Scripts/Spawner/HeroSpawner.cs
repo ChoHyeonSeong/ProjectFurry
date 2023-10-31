@@ -32,6 +32,15 @@ public class HeroSpawner : MonoBehaviour
 
     public void SetHeroZone(HeroZone zone)
     {
+        if(zone == null)
+        {
+            _spawnedHero.HideTargetMonsterZone();
+        }
+        else
+        {
+            _spawnedHero.CalculrateAttackRange(zone);
+            _spawnedHero.ShowTargetMonsterZone();
+        }
         _heroZone = zone;
     }
 
@@ -44,8 +53,8 @@ public class HeroSpawner : MonoBehaviour
         else
         {
             _landingBtn.SetActive(false);
-            _spawnedHero.LandHero(_heroIndex);
             _spawnedHero.MyZone = _heroZone;
+            _spawnedHero.LandHero(_heroIndex);
             _heroZone.IsStandingHero = true;
         }
         _heroIndex = -1;

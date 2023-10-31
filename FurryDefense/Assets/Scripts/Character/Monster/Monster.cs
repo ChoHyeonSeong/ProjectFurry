@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class Monster : MonoBehaviour
 {
+    private int _heartPoint;
     private bool _isDie;
     private Vector3 _moveDirection;
     private float _moveSpeed;
@@ -14,11 +15,21 @@ public class Monster : MonoBehaviour
         _moveDirection = direction;
     }
 
+    public void PlusHeartPoint(int point)
+    {
+        _heartPoint += point;
+        if( _heartPoint < 0 )
+        {
+            Destroy(gameObject);
+        }
+    }
+
     private void Awake()
     {
         _isDie = false;
         _moveDirection = Vector3.zero;
         _moveSpeed = 1;
+        _heartPoint = 10;
     }
 
     private void Update()

@@ -4,8 +4,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
+
 public class HeroZone : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
 {
+    public EDirection AttackDirection;
+
     public static Action<HeroZone> OnClickHeroZone { get; set; }
 
     [SerializeField]
@@ -13,6 +16,9 @@ public class HeroZone : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 
     [SerializeField]
     private GameObject _impossibleZone;
+
+    [SerializeField]
+    private Vector2Int _zoneArrayPosition;
 
     public bool IsStandingHero;
 
@@ -27,7 +33,7 @@ public class HeroZone : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        if(_heroSpawner.IsSpawnedHero)
+        if(_heroSpawner.IsSpawnedHero && !IsStandingHero)
         {
             Debug.Log("HeroZone Enter");
             _heroSpawner.SetHeroZone(this);
@@ -36,7 +42,7 @@ public class HeroZone : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        if (_heroSpawner.IsSpawnedHero)
+        if (_heroSpawner.IsSpawnedHero && !IsStandingHero)
         {
             Debug.Log("HeroZone Exit");
             _heroSpawner.SetHeroZone(null);
@@ -67,5 +73,10 @@ public class HeroZone : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     {
         _impossibleZone.SetActive(false);
         _possibleZone.SetActive(false);
+    }
+
+    public Vector2Int GetZoneArrayPosition()
+    {
+        return _zoneArrayPosition;
     }
 }
