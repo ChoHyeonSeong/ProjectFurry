@@ -4,12 +4,13 @@ using UnityEngine;
 
 public class MonsterZone : MonoBehaviour
 {
+    public List<Monster> MonsterList { get; private set; }
+
     [SerializeField]
     private SpriteRenderer _sprite;
 
     private Color _orangeColor= new Color(1.0f, 0.5f, 0);
 
-    private List<Monster> _monsters = new List<Monster>();
     private string _monsterTag = "Monster";
 
     public void ShowAttackRange()
@@ -21,19 +22,16 @@ public class MonsterZone : MonoBehaviour
         _sprite.color = Color.white;
     }
 
-    public void AttackMonster(int damage)
+    private void Awake()
     {
-        for(int i=0; i< _monsters.Count; i++)
-        {
-            _monsters[i].PlusHeartPoint(-damage);
-        }
+        MonsterList = new List<Monster>();
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if(collision.CompareTag(_monsterTag))
         {
-            _monsters.Add(collision.GetComponent<Monster>());
+            MonsterList.Add(collision.GetComponent<Monster>());
         }
     }
 
@@ -41,7 +39,7 @@ public class MonsterZone : MonoBehaviour
     {
         if (collision.CompareTag(_monsterTag))
         {
-            _monsters.Remove(collision.GetComponent<Monster>());
+            MonsterList.Remove(collision.GetComponent<Monster>());
         }
     }
 }

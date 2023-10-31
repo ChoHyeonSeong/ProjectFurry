@@ -20,7 +20,6 @@ public class Hero : MonoBehaviour, IPointerClickHandler
     public HeroZone MyZone { get; set; }
 
 
-    private List<Vector2Int> _originAttackRange;
     private List<Vector2Int> _realAttackRange;
     private List<MonsterZone> _targetMonsterZoneList;
 
@@ -31,7 +30,10 @@ public class Hero : MonoBehaviour, IPointerClickHandler
     private bool _isLanded;
     private bool _possibleAttack;
 
+    private int _attackDamage;
+    private int _attackNum;
     private float _attackTime;
+    private List<Vector2Int> _attackRange;
 
     public void LandHero(int index)
     {
@@ -44,7 +46,7 @@ public class Hero : MonoBehaviour, IPointerClickHandler
 
     private void Awake()
     {
-        _originAttackRange = new List<Vector2Int>
+        _attackRange = new List<Vector2Int>
         {
             new Vector2Int(1, 0)
         };
@@ -53,6 +55,7 @@ public class Hero : MonoBehaviour, IPointerClickHandler
         _isLanded = false;
         _possibleAttack = false;
         _attackTime = 0.2f;
+        _attackDamage = 1;
     }
 
     private void Update()
@@ -61,11 +64,19 @@ public class Hero : MonoBehaviour, IPointerClickHandler
         {
             if(_possibleAttack)
             {
+                List<Monster> monsterList = new List<Monster>();
                 foreach(MonsterZone zone in _targetMonsterZoneList)
                 {
-                    zone.AttackMonster(1);
+                    monsterList.AddRange(zone.MonsterList);
                 }
-                StartCoroutine(CoExecuteAttack());
+                if(monsterList.Count > 0)
+                {
+                    for(int i = 0; i < monsterList.Count && i<_attackNum; i++)
+                    {
+                        monsterList[i].PlusHeartPoint(-_attackDamage);
+                    }
+                    StartCoroutine(CoExecuteAttack());
+                }
             }
         }
     }
@@ -101,15 +112,15 @@ public class Hero : MonoBehaviour, IPointerClickHandler
 
         Vector2Int range= Vector2Int.zero;
         _realAttackRange = new List<Vector2Int>();
-        for (int i = 0; i < _originAttackRange.Count; i++)
+        for (int i = 0; i < _attackRange.Count; i++)
         {
             if(isReserve)
             {
-                range.Set(_originAttackRange[i].y, _originAttackRange[i].x);
+                range.Set(_attackRange[i].y, _attackRange[i].x);
             }
             else
             {
-                range.Set(_originAttackRange[i].x, _originAttackRange[i].y);
+                range.Set(_attackRange[i].x, _attackRange[i].y);
             }
             range *= coefficient;
             _realAttackRange.Add(heroZone.GetZoneArrayPosition() + range);
