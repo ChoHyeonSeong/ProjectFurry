@@ -56,6 +56,7 @@ public class Hero : MonoBehaviour, IPointerClickHandler
         _possibleAttack = false;
         _attackTime = 0.2f;
         _attackDamage = 1;
+        _attackNum = 1;
     }
 
     private void Update()
@@ -71,7 +72,7 @@ public class Hero : MonoBehaviour, IPointerClickHandler
                 }
                 if(monsterList.Count > 0)
                 {
-                    for(int i = 0; i < monsterList.Count && i<_attackNum; i++)
+                    for (int i = 0; i < monsterList.Count && i<_attackNum; i++)
                     {
                         monsterList[i].PlusHeartPoint(-_attackDamage);
                     }
