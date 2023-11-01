@@ -8,6 +8,8 @@ public class MonsterData
 {
     public int MonsterId { get; set; }
 
+    public int PrefabIndex { get; set; }
+
     public int HeartPoint { get; set; }
 
     public int StrikingPower { get; set; }

@@ -10,9 +10,23 @@ public class Monster : MonoBehaviour
     public static Action OnDieMonster { get; set; }
     public int MaxHP { get; private set; }
     public int CurrentHP { get; private set; }
+    public int StrikingPower { get; private set; }
+    public int DropCost { get; private set; }
+
     private bool _isDie;
     private Vector3 _moveDirection;
     private float _moveSpeed;
+
+    public void InitMonster(MonsterData data, Vector3 direction)
+    {
+        MaxHP = data.HeartPoint;
+        StrikingPower = data.StrikingPower;
+        DropCost = data.DropCost;
+        _moveSpeed = data.MoveSpeed;
+        ChangeMoveDirection(direction);
+        CurrentHP = MaxHP;
+        _isDie = false;
+    }
 
     public void ChangeMoveDirection(Vector3 direction)
     {
@@ -29,15 +43,6 @@ public class Monster : MonoBehaviour
             OnDieMonster();
             Destroy(gameObject);
         }
-    }
-
-    private void Awake()
-    {
-        _isDie = false;
-        _moveDirection = Vector3.zero;
-        _moveSpeed = 1;
-        MaxHP = 10;
-        CurrentHP = MaxHP;
     }
 
     private void Update()

@@ -40,7 +40,7 @@ public static class StateManager
         }
     }
 
-    public static void ExitState()
+    private static void ExitState()
     {
         switch (_gameState)
         {
