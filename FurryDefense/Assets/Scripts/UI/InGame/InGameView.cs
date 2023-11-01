@@ -26,6 +26,12 @@ public class InGameView : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI _currentCostText;
 
+    [SerializeField]
+    private TextMeshProUGUI _waveCountText;
+
+    [SerializeField]
+    private TextMeshProUGUI _gameSpeedText;
+
 
     public void ActiveLandingButton(int index)
     {
@@ -34,11 +40,19 @@ public class InGameView : MonoBehaviour
 
     private void OnEnable()
     {
+        InGameHandler.OnSetCurrentCost += ChangeCurrentCostText;
+        InGameHandler.OnSetWaveCount += ChangeWaveCountText;
+        InGameHandler.OnSetMonsterCount += ChangeMonsterCountText;
+        InGameHandler.OnSetGameSpeed += ChangeGameSpeedText;
         MonsterSpawner.OnSpawnMonster += GenerateMonsterHPBar;
     }
 
     private void OnDisable()
     {
+        InGameHandler.OnSetCurrentCost -= ChangeCurrentCostText;
+        InGameHandler.OnSetWaveCount -= ChangeWaveCountText;
+        InGameHandler.OnSetMonsterCount -= ChangeMonsterCountText;
+        InGameHandler.OnSetGameSpeed -= ChangeGameSpeedText;
         MonsterSpawner.OnSpawnMonster -= GenerateMonsterHPBar;
     }
 
@@ -46,5 +60,25 @@ public class InGameView : MonoBehaviour
     {
         HeartPointBar hpBar = Instantiate(_heartPointBarPrefab, _heartPointBarParent);
         hpBar.SetMonster(monster);
+    }
+
+    private void ChangeMonsterCountText(int value)
+    {
+        _monsterCountText.text = value.ToString();
+    }
+
+    private void ChangeCurrentCostText(int value)
+    {
+        _currentCostText.text = value.ToString();
+    }
+
+    private void ChangeWaveCountText(int value)
+    {
+        _waveCountText.text = value.ToString();
+    }
+
+    private void ChangeGameSpeedText(int value)
+    {
+        _gameSpeedText.text = value.ToString();
     }
 }

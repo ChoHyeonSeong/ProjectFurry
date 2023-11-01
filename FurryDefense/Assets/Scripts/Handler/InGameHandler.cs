@@ -85,6 +85,8 @@ public class InGameHandler : MonoBehaviour
     {
         WaveCount = 0;
         CurrentCost = 10;
+        GameSpeed = 1;
+        MonsterCount = 0;
         StartCoroutine(StartStage(DataManager.GetStageData(1, 1)));
     }
 

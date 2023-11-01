@@ -1,18 +1,18 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MonsterData : MonoBehaviour
+[Serializable]
+public class MonsterData
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    public int MonsterId { get; set; }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    public int HeartPoint { get; set; }
+
+    public int DamagePoint { get; set; }
+
+    public int DropCost { get; set; }
+
+    public float MoveSpeed { get; set; }
 }
