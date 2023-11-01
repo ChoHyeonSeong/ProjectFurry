@@ -3098,7 +3098,7 @@ GameObject:
   - component: {fileID: 976306852}
   - component: {fileID: 976306851}
   m_Layer: 5
-  m_Name: RemainTime
+  m_Name: WaveCount
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3407,9 +3407,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Remain
+  m_text: 'Wave
 
-    Time'
+    Count'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -5542,6 +5542,8 @@ MonoBehaviour:
   - {fileID: 1127135090}
   _heartPointBarPrefab: {fileID: 530792226420375973, guid: c15bd32d851085f4e9028bc1dbf0448b, type: 3}
   _heartPointBarParent: {fileID: 1336937824}
+  _monsterCountText: {fileID: 1757910194}
+  _currentCostText: {fileID: 1854350149}
 --- !u!1 &1765511179 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8393646852605873574, guid: b1072ef7961ea3e4b8ccd3f06b0098c6, type: 3}
@@ -6996,26 +6998,14 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2139327695}
-  - component: {fileID: 2139327694}
+  - component: {fileID: 2139327696}
   m_Layer: 0
-  m_Name: Managers
+  m_Name: GameManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &2139327694
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2139327693}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e36a241f02a4b774a83909d296654ded, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!4 &2139327695
 Transform:
   m_ObjectHideFlags: 0
@@ -7031,6 +7021,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2139327696
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2139327693}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1bcef263a346aa94ba96fca675f772fe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &4562773676553041545
 PrefabInstance:
   m_ObjectHideFlags: 0

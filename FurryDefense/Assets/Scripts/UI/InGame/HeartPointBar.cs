@@ -20,12 +20,17 @@ public class HeartPointBar : MonoBehaviour
     {
         _monster = monster;
         _monster.OnPlusHeartPoint += UpdateBar;
-        _monster.OnDieMonster += DestroyBar;
     }
 
     public void UpdateBar()
     {
         _fill.fillAmount = _fillAmount = (float)_monster.CurrentHP / _monster.MaxHP;
+        if(_fillAmount <= 0)
+        {
+            _monster.OnPlusHeartPoint -= UpdateBar;
+            _monster = null;
+            Destroy(gameObject);
+        }
         Debug.Log(_fillAmount);
     }
 
@@ -35,13 +40,5 @@ public class HeartPointBar : MonoBehaviour
         {
             transform.position = Camera.main.WorldToScreenPoint(_monster.transform.position + _onHeadPos);
         }
-    }
-
-    private void DestroyBar()
-    {
-        _monster.OnPlusHeartPoint -= UpdateBar;
-        _monster.OnDieMonster -= DestroyBar;
-        _monster = null;
-        Destroy(gameObject);
     }
 }

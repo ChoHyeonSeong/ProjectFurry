@@ -11,14 +11,10 @@ public class MonsterSpawner : MonoBehaviour
     [SerializeField]
     private Monster _monsterPrefab;
 
-    private void Start()
-    {
-        SpawnMonster();
-    }
 
-    public void SpawnMonster()
+    public void SpawnMonster(int monsterId, int monsterCount)
     {
-        for(int i=0;i<40;i++)
+        for (int i = 0; i < monsterCount; i++)
         {
             Monster monster = Instantiate(_monsterPrefab, transform);
             monster.ChangeMoveDirection(Random.insideUnitCircle.normalized);

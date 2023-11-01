@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -18,6 +19,12 @@ public class InGameView : MonoBehaviour
 
     [SerializeField]
     private Transform _heartPointBarParent;
+
+    [SerializeField]
+    private TextMeshProUGUI _monsterCountText;
+
+    [SerializeField]
+    private TextMeshProUGUI _currentCostText;
 
 
     public void ActiveLandingButton(int index)
