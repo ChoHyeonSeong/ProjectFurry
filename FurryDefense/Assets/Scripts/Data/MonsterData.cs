@@ -10,7 +10,7 @@ public class MonsterData
 
     public int HeartPoint { get; set; }
 
-    public int DamagePoint { get; set; }
+    public int StrikingPower { get; set; }
 
     public int DropCost { get; set; }
 

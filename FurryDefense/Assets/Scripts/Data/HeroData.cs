@@ -6,11 +6,15 @@ using UnityEngine;
 [Serializable]
 public class HeroData
 {
-    public int HeroCost { get; set; }
+    public int HeroId { get; set; }
 
-    public int AttackDamage { get; set; }
+    public int HeartPoint { get; set; }
 
-    public int AttackNum { get; set; }
+    public int StrikingPower { get; set; }
+
+    public int RequireCost { get; set; }
+
+    public int TargetNum { get; set; }
 
     public float AttackSpeed { get; set; }
 
