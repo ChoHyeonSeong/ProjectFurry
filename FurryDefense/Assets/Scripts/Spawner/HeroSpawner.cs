@@ -5,12 +5,15 @@ using UnityEngine;
 
 public class HeroSpawner : MonoBehaviour
 {
+    public static Action<int> OnSuccessLandingHero { get; set; }
+
     public bool IsSpawnedHero { get; private set; }
 
 
     [SerializeField]
     private List<Hero> _heroPrefabs;
 
+    private List<int> _heroIdList;
     private Hero _spawnedHero;
     private HeroZone _heroZone;
     private GameObject _landingBtn;
@@ -24,10 +27,16 @@ public class HeroSpawner : MonoBehaviour
 
     public void SpawnHero(int index, Vector3 spawnPos, GameObject landingBtn)
     {
-        _spawnedHero = Instantiate(_heroPrefabs[index], spawnPos, Quaternion.identity, transform);
+        HeroData data = DataManager.GetHeroData(_heroIdList[index]);
+        _spawnedHero = Instantiate(ResourceManager.GetHeroPrefab(data.PrefabIndex), spawnPos, Quaternion.identity, transform);
         _heroIndex = index;
         _landingBtn = landingBtn;
         IsSpawnedHero = true;
+    }
+
+    public int GetRequireCost(int heroIndex)
+    {
+        return DataManager.GetHeroData(_heroIdList[heroIndex]).RequireCost;
     }
 
     public void SetHeroZone(HeroZone zone)
@@ -56,12 +65,23 @@ public class HeroSpawner : MonoBehaviour
             _spawnedHero.MyZone = _heroZone;
             _spawnedHero.LandHero(_heroIndex);
             _heroZone.IsStandingHero = true;
+            OnSuccessLandingHero(_heroIdList[_heroIndex]);
         }
         _heroIndex = -1;
         _spawnedHero = null;
         _landingBtn = null;
         _heroZone = null;
         IsSpawnedHero = false;
+    }
+
+    private void Awake()
+    {
+        InGameHandler.OnSetHeroFormation += InitHeroIdList;
+    }
+
+    private void OnDestroy()
+    {
+        InGameHandler.OnSetHeroFormation -= InitHeroIdList;
     }
 
     private void Update()
@@ -85,5 +105,10 @@ public class HeroSpawner : MonoBehaviour
             heroPos = _heroZone.transform.position;
         }
         return heroPos;
+    }
+
+    private void InitHeroIdList(List<int> heroIdList)
+    {
+        _heroIdList = heroIdList;
     }
 }
