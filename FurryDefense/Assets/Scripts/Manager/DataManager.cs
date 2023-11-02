@@ -8,15 +8,14 @@ public static class DataManager
 {
     private static Dictionary<int, StageData> _stageDataDict;
     private static Dictionary<int, MonsterData> _monsterDataDict;
+    private static Dictionary<int, HeroData> _heroDataDict;
 
     public static void LoadUserData(Action loadingCallback)
     {
-        LoadStageData();
-        LoadMonsterData();
         loadingCallback();
     }
 
-    private static void LoadStageData()
+    public static void LoadStageData()
     {
         _stageDataDict = new Dictionary<int, StageData>();
         StageData stageData = new StageData();
@@ -28,7 +27,7 @@ public static class DataManager
         _stageDataDict[stageData.StageId] = stageData;
     }
 
-    private static void LoadMonsterData()
+    public static void LoadMonsterData()
     {
         _monsterDataDict = new Dictionary<int, MonsterData>();
         MonsterData monsterData = new MonsterData();
@@ -41,6 +40,20 @@ public static class DataManager
         _monsterDataDict[monsterData.MonsterId] = monsterData;
     }
 
+    public static void LoadHeroData()
+    {
+        _heroDataDict = new Dictionary<int, HeroData>();
+        HeroData heroData = new HeroData();
+        heroData.HeroId = 0;
+        heroData.HeartPoint = 10;
+        heroData.StrikingPower = 1;
+        heroData.RequireCost = 10;
+        heroData.TargetNum = 1;
+        heroData.AttackSpeed = 1;
+        heroData.AttackRange = new List<Vector2Int> { new Vector2Int(1, 0) };
+        _heroDataDict[heroData.HeroId] = heroData;
+    }
+
     public static StageData GetStageData(int mainStage, int subStage)
     {
         return _stageDataDict[(mainStage * 100) + subStage];
@@ -49,5 +62,10 @@ public static class DataManager
     public static MonsterData GetMonsterData(int monsterId)
     {
         return _monsterDataDict[monsterId];
+    }
+
+    public static HeroData GetHeroData(int heroId)
+    {
+        return _heroDataDict[heroId];
     }
 }

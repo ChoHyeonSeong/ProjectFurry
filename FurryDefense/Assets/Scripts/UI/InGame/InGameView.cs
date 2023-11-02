@@ -12,9 +12,6 @@ public class InGameView : MonoBehaviour
     private GameObject _landingBtnParent;
 
     [SerializeField]
-    private List<GameObject> _landingBtnList;
-
-    [SerializeField]
     private HeartPointBar _heartPointBarPrefab;
 
     [SerializeField]
@@ -33,9 +30,17 @@ public class InGameView : MonoBehaviour
     private TextMeshProUGUI _gameSpeedText;
 
 
+    private List<LandingButton> _landingBtnList;
+
+
     public void ActiveLandingButton(int index)
     {
-        _landingBtnList[index].SetActive(true);
+        _landingBtnList[index].gameObject.SetActive(true);
+    }
+
+    private void Awake()
+    {
+        _landingBtnList = _landingBtnParent.GetComponentsInChildren<LandingButton>().ToList();
     }
 
     private void OnEnable()
@@ -44,6 +49,7 @@ public class InGameView : MonoBehaviour
         InGameHandler.OnSetWaveCount += ChangeWaveCountText;
         InGameHandler.OnSetMonsterCount += ChangeMonsterCountText;
         InGameHandler.OnSetGameSpeed += ChangeGameSpeedText;
+        InGameHandler.OnSetHeroFormation += InitLandingButton;
         MonsterSpawner.OnSpawnMonster += GenerateMonsterHPBar;
     }
 
@@ -53,6 +59,7 @@ public class InGameView : MonoBehaviour
         InGameHandler.OnSetWaveCount -= ChangeWaveCountText;
         InGameHandler.OnSetMonsterCount -= ChangeMonsterCountText;
         InGameHandler.OnSetGameSpeed -= ChangeGameSpeedText;
+        InGameHandler.OnSetHeroFormation -= InitLandingButton;
         MonsterSpawner.OnSpawnMonster -= GenerateMonsterHPBar;
     }
 
@@ -72,13 +79,21 @@ public class InGameView : MonoBehaviour
         _currentCostText.text = value.ToString();
     }
 
-    private void ChangeWaveCountText(int value)
+    private void ChangeWaveCountText(int current, int max)
     {
-        _waveCountText.text = value.ToString();
+        _waveCountText.text = $"{current}/{max}";
     }
 
     private void ChangeGameSpeedText(int value)
     {
         _gameSpeedText.text = value.ToString();
+    }
+
+    private void InitLandingButton(List<int> heroIdList)
+    {
+        for (int i = 0; i < _landingBtnList.Count; i++)
+        {
+            _landingBtnList[i].Init(i < heroIdList.Count ? heroIdList[i] : -1);
+        }
     }
 }

@@ -7,8 +7,9 @@ public class InGameHandler : MonoBehaviour
 {
     public static Action<int> OnSetCurrentCost { get; set; }
     public static Action<int> OnSetGameSpeed { get; set; }
-    public static Action<int> OnSetWaveCount { get; set; }
+    public static Action<int, int> OnSetWaveCount { get; set; }
     public static Action<int> OnSetMonsterCount { get; set; }
+    public static Action<List<int>> OnSetHeroFormation { get; set; }
 
     public int CurrentCost 
     {
@@ -36,7 +37,7 @@ public class InGameHandler : MonoBehaviour
         private set
         {
             _waveCount = value;
-            OnSetWaveCount(_waveCount);
+            OnSetWaveCount(_waveCount, _maxWave);
         }
     }
 
@@ -54,40 +55,53 @@ public class InGameHandler : MonoBehaviour
     private int _gameSpeed;
     private int _waveCount;
     private int _monsterCount;
+    private int _maxWave;
 
     private MonsterSpawner _monsterSpawner;
+    private FormationHandler _formationHandler;
 
     private void Awake()
     {
         _monsterSpawner = FindObjectOfType<MonsterSpawner>();
+        _formationHandler = FindObjectOfType<FormationHandler>();
     }
 
     private void OnEnable()
     {
         StateManager.OnEnterInGameState += EnterInGame;
         Monster.OnDieMonster += ReceiveDyingMonster;
+        HeroSpawner.OnSuccessLandingHero += ReceiveLandingHero;
     }
 
     private void OnDisable()
     {
         StateManager.OnEnterInGameState -= EnterInGame;
         Monster.OnDieMonster -= ReceiveDyingMonster;
+        HeroSpawner.OnSuccessLandingHero -= ReceiveLandingHero;
     }
 
 
-    private void ReceiveDyingMonster()
+    private void ReceiveDyingMonster(Monster monster)
     {
-        CurrentCost++;
+        CurrentCost += monster.DropCost;
         MonsterCount--;
+    }
+
+    private void ReceiveLandingHero(int heroId)
+    {
+        CurrentCost -= DataManager.GetHeroData(heroId).RequireCost;
     }
 
     private void EnterInGame()
     {
+        OnSetHeroFormation(_formationHandler.HeroIdList);
+        StageData stageData = DataManager.GetStageData(1, 1);
+        _maxWave = stageData.WaveCount;
         WaveCount = 0;
         CurrentCost = 10;
         GameSpeed = 1;
         MonsterCount = 0;
-        StartCoroutine(StartStage(DataManager.GetStageData(1, 1)));
+        StartCoroutine(StartStage(stageData));
     }
 
     private IEnumerator StartStage(StageData data)

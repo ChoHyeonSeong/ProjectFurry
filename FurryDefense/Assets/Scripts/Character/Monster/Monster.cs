@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class Monster : MonoBehaviour
 {
     public Action OnPlusHeartPoint { get; set; }
-    public static Action OnDieMonster { get; set; }
+    public static Action<Monster> OnDieMonster { get; set; }
     public int MaxHP { get; private set; }
     public int CurrentHP { get; private set; }
     public int StrikingPower { get; private set; }
@@ -40,7 +40,7 @@ public class Monster : MonoBehaviour
         if( CurrentHP <= 0 )
         {
             _isDie = true;
-            OnDieMonster();
+            OnDieMonster(this);
             Destroy(gameObject);
         }
     }

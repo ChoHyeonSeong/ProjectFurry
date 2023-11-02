@@ -18,10 +18,26 @@ public class LandingButton : MonoBehaviour, IPointerUpHandler, IPointerDownHandl
     {
         _heroSpawner = FindObjectOfType<HeroSpawner>();
     }
-
-    public void SuccessHeroLanding()
+    private void OnEnable()
     {
-        gameObject.SetActive(false);
+        InGameHandler.OnSetCurrentCost += CheckLandable;
+    }
+
+    private void OnDisable()
+    {
+        InGameHandler.OnSetCurrentCost -= CheckLandable;
+    }
+
+    public void Init(int heroId)
+    {
+        if(heroId < 0)
+        {
+            gameObject.SetActive(false);
+        }
+        else
+        {
+            gameObject.SetActive(true);
+        }
     }
 
     public void OnPointerDown(PointerEventData eventData)
@@ -45,5 +61,13 @@ public class LandingButton : MonoBehaviour, IPointerUpHandler, IPointerDownHandl
         transform.position -= _selectedPos;
         _isPointerDowned = false;
         _heroSpawner.TryLandingHero();
+    }
+
+    private void CheckLandable(int value)
+    {
+        if(value >= _heroSpawner.GetRequireCost(_heroIndex))
+        {
+            // landingButton 
+        }
     }
 }

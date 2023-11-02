@@ -17,5 +17,10 @@ public class GameManager : MonoBehaviour
 
     private void GameStart()
     {
+        DataManager.LoadStageData();
+        DataManager.LoadMonsterData();
+        DataManager.LoadHeroData();
+        ResourceManager.LoadHeroResource();
+        ResourceManager.LoadMonsterResource();
     }
 }
