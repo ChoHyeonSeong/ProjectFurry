@@ -29,19 +29,10 @@ public class MonsterZoneHandler : MonoBehaviour
 
     public List<MonsterZone> GetTargetMonsterZone(List<Vector2Int> attackRange)
     {
-        for(int i=0;i<_monsterZoneList.Count;i++)
-        {
-            for(int j = 0; j < _monsterZoneList[i].Count;j++)
-            {
-                Debug.Log($"({j},{i}) == {_monsterZoneList[i][j]}");
-            }
-        }
-
         List<MonsterZone> target = new List<MonsterZone>();
         MonsterZone zone;
         for (int i = 0; i < attackRange.Count; i++)
         {
-            Debug.Log($"{attackRange[i]} == AttackRange");
             zone = _monsterZoneList[attackRange[i].y][attackRange[i].x];
             if (zone != null)
             {

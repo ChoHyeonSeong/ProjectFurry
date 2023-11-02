@@ -1,23 +1,22 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class MonsterSpawner : MonoBehaviour
 {
-    [SerializeField]
-    private Monster _monsterPrefab;
+    public static Action<Monster> OnSpawnMonster { get; set; }
 
-    private void Start()
+    public void SpawnMonster(int monsterId, int monsterCount)
     {
-        SpawnMonster();
-    }
-
-    public void SpawnMonster()
-    {
-        for(int i=0;i<40;i++)
+        MonsterData data = DataManager.GetMonsterData(monsterId);
+        for (int i = 0; i < monsterCount; i++)
         {
-            Monster monster = Instantiate(_monsterPrefab, transform);
-            monster.ChangeMoveDirection(Random.insideUnitCircle.normalized);
+            Monster monster = Instantiate(ResourceManager.GetMonsterPrefab(data.PrefabIndex), transform);
+            monster.InitMonster(data, Random.insideUnitCircle.normalized);
+            OnSpawnMonster(monster);
         }
     }
 }
