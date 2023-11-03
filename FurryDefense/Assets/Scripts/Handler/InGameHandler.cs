@@ -9,6 +9,8 @@ public class InGameHandler : MonoBehaviour
     public static Action<int> OnSetGameSpeed { get; set; }
     public static Action<int, int> OnSetWaveCount { get; set; }
     public static Action<int> OnSetMonsterCount { get; set; }
+
+    public static Action <float> OnSetSpawnTime { get; set; }
     public static Action<List<int>> OnSetHeroFormation { get; set; }
 
     public int CurrentCost 
@@ -108,6 +110,7 @@ public class InGameHandler : MonoBehaviour
     {
         if (WaveCount < data.WaveCount)
         {
+            OnSetSpawnTime(data.SpawnTimeList[WaveCount]);
             yield return new WaitForSeconds(data.SpawnTimeList[WaveCount]);
             MonsterCount += data.MonsterCountList[WaveCount];
             _monsterSpawner.SpawnMonster(data.MonsterIdList[WaveCount], data.MonsterCountList[WaveCount]);

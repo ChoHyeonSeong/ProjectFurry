@@ -86,7 +86,7 @@ public class InGameView : MonoBehaviour
 
     private void ChangeGameSpeedText(int value)
     {
-        _gameSpeedText.text = value.ToString();
+        //_gameSpeedText.text = value.ToString();
     }
 
     private void InitLandingButton(List<int> heroIdList)
